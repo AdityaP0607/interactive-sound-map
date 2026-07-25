@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Interactive Sound Map</title>
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <div class="page">
+    <h1>Interactive Sound Map</h1>
+    <p class="hint">
+      Move your cursor over a symbol to hear its sound and see it glow.
+      Press <kbd>C</kbd> to toggle calibration mode (click a symbol to get its exact x/y%).
+    </p>
+
+    <div id="canvas-wrap" class="canvas-wrap">
+      <img id="canvas-img" src="assets/img/canvas.png" alt="Sound map canvas" draggable="false" />
+      <!-- hotspots are injected here by script.js -->
+    </div>
+
+    <div id="calib-readout" class="calib-readout" hidden></div>
+  </div>
+
+  <!-- data first, then logic -->
+  <script src="hotspots.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

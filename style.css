@@ -1,0 +1,132 @@
+:root {
+  --bg: #f4efe7;
+  --ink: #2b241d;
+  --accent: #e0a03e;
+  --panel: #ffffff;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", system-ui, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  display: flex;
+  justify-content: center;
+  padding: 32px 16px 80px;
+}
+
+.page {
+  width: 100%;
+  max-width: 1400px;
+}
+
+h1 {
+  font-size: 1.6rem;
+  margin: 0 0 4px;
+}
+
+.hint {
+  margin: 0 0 20px;
+  color: #6b6255;
+  font-size: 0.95rem;
+}
+
+.hint kbd {
+  background: #e7ded0;
+  border: 1px solid #cfc3ae;
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-family: monospace;
+}
+
+/* ---------- canvas + hotspots ---------- */
+
+.canvas-wrap {
+  position: relative;
+  width: 100%;
+  line-height: 0;           /* removes inline-image gap */
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.15);
+}
+
+.canvas-wrap img#canvas-img {
+  width: 100%;
+  height: auto;
+  display: block;
+  user-select: none;
+}
+
+.hotspot {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  border-radius: 50%;
+  /* uncomment the next line while building, to SEE the hotspot zones */
+  /* outline: 1px dashed rgba(255,0,0,0.6); */
+}
+
+/* the glow layer that blinks on hover, sits on top of the symbol */
+.hotspot::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(255, 214, 120, 0.85) 0%,
+    rgba(255, 214, 120, 0.35) 45%,
+    rgba(255, 214, 120, 0) 75%
+  );
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+.hotspot.active::before {
+  opacity: 1;
+  animation: blink 0.7s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%   { opacity: 0.35; transform: scale(0.92); }
+  50%  { opacity: 1;    transform: scale(1.08); }
+  100% { opacity: 0.35; transform: scale(0.92); }
+}
+
+/* subtle scale-up on the symbol itself while active (uses filter, no layout shift) */
+.hotspot.active {
+  filter: drop-shadow(0 0 6px rgba(255, 193, 90, 0.9));
+}
+
+/* ---------- calibration mode ---------- */
+
+.canvas-wrap.calibrating {
+  cursor: crosshair;
+}
+
+.calib-marker {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  margin-left: -5px;
+  margin-top: -5px;
+  background: red;
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+.calib-readout {
+  margin-top: 14px;
+  padding: 12px 14px;
+  background: var(--panel);
+  border: 1px solid #ddd0ba;
+  border-radius: 8px;
+  font-family: monospace;
+  font-size: 0.85rem;
+  white-space: pre-wrap;
+  max-height: 220px;
+  overflow-y: auto;
+}
